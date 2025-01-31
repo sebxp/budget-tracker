@@ -1,7 +1,7 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-interface NextApiRequestWithUser extends NextApiRequest {
+export interface NextApiRequestWithUser extends NextApiRequest {
     user: string | JwtPayload | undefined
 }
 
