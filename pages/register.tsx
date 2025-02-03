@@ -28,7 +28,6 @@ export default function Register() {
       }, 2000);
     } catch (error) {
       setError("Registration failed. Please try again.");
-      console.error("Registration failed:", error);
     }
   };
 
