@@ -1,6 +1,8 @@
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import styles from '../styles/login.module.css';
 
 export default function Home() {
   const [username, setUsername] = useState('');
@@ -25,22 +27,31 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Password"
-      />
-      <button onClick={handleLogin}>Login</button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <div className={styles.container}>
+      <Head>
+        <title>Login - Budget Tracker</title>
+        <meta name="description" content="Login to your Budget Tracker account to manage your finances." />
+      </Head>
+
+      <div className={styles.card}>
+        <h1 className={styles.title}>Login</h1>
+        <input
+          className={styles.login}
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <input
+          className={styles.login}
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button className={styles.action} onClick={handleLogin}>Login</button>
+        {error && <p className={styles.error} style={{ color: 'red' }}>{error}</p>}
+      </div>
     </div>
   );
 }
