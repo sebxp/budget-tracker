@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CreateBudget from '../components/CreateBudget';
 import EditBudget from '../components/EditBudget';
+import Logout from '../components/Logout';
 import RemoveBudget from '../components/RemoveBudget';
 import styles from '../styles/Dashboard.module.css';
 
@@ -41,7 +42,10 @@ export default function Dashboard() {
         <title>Dashboard - Budget Tracker</title>
         <meta name="description" content="Manage your finance in the Budget Tracker." />
       </Head>
-      <h1 className={styles.header}>Budget Dashboard</h1>
+      <div className={styles.header}>
+        <h1>Budget Dashboard</h1>
+        <Logout />
+      </div>
       <CreateBudget onBudgetAdded={fetchBudgets} />
       <ul className={styles.budgetList}>
         {budgets.map((budget: any) => (
