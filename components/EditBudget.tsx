@@ -1,42 +1,59 @@
 // components/EditBudget.tsx
 
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
-import styles from '../styles/EditBudget.module.css';
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import commonStyles from "../styles/Common.module.css";
+import styles from "../styles/EditBudget.module.css";
 
-const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudgetUpdated: () => void }) => {
-  const [name, setName] = useState(budgetItem.name || '');
-  const [amount, setAmount] = useState(budgetItem.amount || '');
-  const [message, setMessage] = useState('');
+const EditBudget = ({
+  budgetItem,
+  onBudgetUpdated,
+}: {
+  budgetItem: any;
+  onBudgetUpdated: () => void;
+}) => {
+  const [name, setName] = useState(budgetItem.name || "");
+  const [amount, setAmount] = useState(budgetItem.amount || "");
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const router = useRouter();
 
   const handleUpdate = async () => {
     if (!name || !amount || isNaN(parseFloat(amount))) {
-      setMessage('Please enter a valid name and amount.');
+      setIsError(true);
+      setMessage("Please enter a valid name and amount.");
       return;
     }
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put(`/api/budget/${budgetItem._id}`, { name, amount: parseFloat(amount) }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `/api/budget/${budgetItem._id}`,
+        { name, amount: parseFloat(amount) },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setMessage(response.data.message);
+      setIsError(false);
       onBudgetUpdated();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         if (error.response.status === 403) {
           // Remove the token from local storage
-          localStorage.removeItem('token');
+          localStorage.removeItem("token");
 
           // Redirect to the login page
-          router.push('/');
+          router.push("/");
+        } else {
+          setIsError(true);
+          setMessage(
+            error.response.data.message || "Failed to update budget item."
+          );
         }
-        else
-          setMessage(error.response.data.message || 'Failed to update budget item.');
       }
     }
   };
@@ -56,8 +73,18 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
         onChange={(e) => setAmount(e.target.value)}
         className={styles.input}
       />
-      <button className={styles.button} onClick={handleUpdate}>Update</button>
-      {message && <p className={styles.error}>{message}</p>}
+      <button className={styles.button} onClick={handleUpdate}>
+        Update
+      </button>
+      {message && (
+        <p
+          className={`${commonStyles.message} ${
+            isError ? commonStyles.error : commonStyles.success
+          }`}
+        >
+          {message}
+        </p>
+      )}
     </div>
   );
 };

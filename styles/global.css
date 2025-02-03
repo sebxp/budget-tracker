@@ -55,3 +55,15 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.message {
+  margin-top: 1rem;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
+}

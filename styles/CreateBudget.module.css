@@ -30,8 +30,3 @@
 .button:hover {
     background-color: #005bb5;
 }
-
-.error {
-    color: red;
-    margin-top: 1rem;
-}
