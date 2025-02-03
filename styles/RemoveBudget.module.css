@@ -13,3 +13,8 @@
 .button:hover {
     background-color: #c82333;
 }
+
+.error {
+    color: red;
+    margin-top: 1rem;
+}

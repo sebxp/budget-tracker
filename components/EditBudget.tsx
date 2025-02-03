@@ -1,6 +1,7 @@
 // components/EditBudget.tsx
 
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from '../styles/EditBudget.module.css';
 
@@ -8,6 +9,7 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
   const [name, setName] = useState(budgetItem.name || '');
   const [amount, setAmount] = useState(budgetItem.amount || '');
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleUpdate = async () => {
     if (!name || !amount || isNaN(parseFloat(amount))) {
@@ -25,7 +27,17 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
       setError('');
       onBudgetUpdated();
     } catch (error) {
-      console.error('Failed to update budget item:', error);
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 403) {
+          // Remove the token from local storage
+          localStorage.removeItem('token');
+
+          // Redirect to the login page
+          router.push('/');
+        }
+        else
+          setError('An error ocurred while trying to edit this item');
+      }
     }
   };
 

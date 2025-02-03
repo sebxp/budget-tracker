@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from '../styles/CreateBudget.module.css';
 
@@ -6,6 +7,7 @@ export default function CreateBudget({ onBudgetAdded }: { onBudgetAdded: () => v
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async () => {
     if (!name || !amount || isNaN(parseFloat(amount))) {
@@ -25,7 +27,17 @@ export default function CreateBudget({ onBudgetAdded }: { onBudgetAdded: () => v
       setError('');
       onBudgetAdded();
     } catch (error) {
-      console.error('Failed to create budget item:', error);
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 403) {
+          // Remove the token from local storage
+          localStorage.removeItem('token');
+
+          // Redirect to the login page
+          router.push('/');
+        }
+        else
+          setError('An error ocurred while trying to create a new budget item');
+      }
     }
   };
 

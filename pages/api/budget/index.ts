@@ -1,8 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import { authenticateJWT, NextApiRequestWithUser } from '../../../utils/auth';
 import { connectToDatabase } from '../../../utils/mongodb';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequestWithUser, res: NextApiResponse) {
     const db = await connectToDatabase();
 
     if (req.method === 'GET') {
@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === 'POST') {
-        return authenticateJWT(req as NextApiRequestWithUser, res, async () => {
+        return authenticateJWT(req, res, async () => {
             const budget = req.body;
             const result = await db.collection('budgets').insertOne(budget);
             return res.status(201).json({ _id: result.insertedId, ...budget });
