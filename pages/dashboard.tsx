@@ -1,9 +1,11 @@
 import axios from 'axios';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CreateBudget from '../components/CreateBudget';
 import EditBudget from '../components/EditBudget';
 import RemoveBudget from '../components/RemoveBudget';
+import styles from '../styles/Dashboard.module.css';
 
 export default function Dashboard() {
   const [budgets, setBudgets] = useState([]);
@@ -34,15 +36,21 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <h1>Budget Dashboard</h1>
+    <div className={styles.container}>
+      <Head>
+        <title>Dashboard - Budget Tracker</title>
+        <meta name="description" content="Manage your finance in the Budget Tracker." />
+      </Head>
+      <h1 className={styles.header}>Budget Dashboard</h1>
       <CreateBudget onBudgetAdded={fetchBudgets} />
-      <ul>
+      <ul className={styles.budgetList}>
         {budgets.map((budget: any) => (
-          <li key={budget._id}>
+          <li key={budget._id} className={styles.budgetItem}>
             {budget.name}: ${budget.amount}
-            <button onClick={() => setEditingBudget(budget)}>Edit</button>
-            <RemoveBudget budgetId={budget._id} onBudgetRemoved={fetchBudgets} />
+            <div className={styles.buttonGroup}>
+              <button className={styles.editButton} onClick={() => setEditingBudget(budget)}>Edit</button>
+              <RemoveBudget budgetId={budget._id} onBudgetRemoved={fetchBudgets} />
+            </div>
           </li>
         ))}
       </ul>

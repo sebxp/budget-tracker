@@ -2,7 +2,7 @@ import axios from 'axios';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import styles from '../styles/login.module.css';
+import styles from '../styles/Login.module.css';
 
 export default function Home() {
   const [username, setUsername] = useState('');

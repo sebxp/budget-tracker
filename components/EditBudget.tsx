@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import { useState } from 'react';
+import styles from '../styles/EditBudget.module.css';
 
 const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudgetUpdated: () => void }) => {
   const [name, setName] = useState(budgetItem.name || '');
@@ -22,19 +23,21 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
   };
 
   return (
-    <div>
+    <div className={styles.form}>
       <h2>Edit Budget Item</h2>
       <input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        className={styles.input}
       />
       <input
         type="number"
         value={amount}
         onChange={(e) => setAmount(e.target.value)}
+        className={styles.input}
       />
-      <button onClick={handleUpdate}>Update</button>
+      <button className={styles.button} onClick={handleUpdate}>Update</button>
     </div>
   );
 };

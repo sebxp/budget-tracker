@@ -1,0 +1,47 @@
+/* styles/Dashboard.module.css */
+
+.container {
+    padding: 2rem;
+    background-color: #f0f4f8;
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.budgetList {
+    list-style: none;
+    padding: 0;
+}
+
+.budgetItem {
+    background-color: white;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.editButton {
+    padding: 0.5rem 1rem;
+    background-color: #ffc107;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.editButton:hover {
+    background-color: #e0a800;
+}

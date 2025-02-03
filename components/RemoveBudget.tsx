@@ -1,6 +1,7 @@
 // components/RemoveBudget.tsx
 
 import axios from 'axios';
+import styles from '../styles/RemoveBudget.module.css';
 
 const RemoveBudget = ({ budgetId, onBudgetRemoved }: { budgetId: string, onBudgetRemoved: () => void }) => {
   const handleRemove = async () => {
@@ -19,7 +20,7 @@ const RemoveBudget = ({ budgetId, onBudgetRemoved }: { budgetId: string, onBudge
   };
 
   return (
-    <button onClick={handleRemove}>Remove</button>
+    <button className={styles.button} onClick={handleRemove}>Remove</button>
   );
 };
 
