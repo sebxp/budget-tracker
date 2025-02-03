@@ -13,6 +13,10 @@ export default function Home() {
   const router = useRouter();
 
   const handleLogin = async () => {
+    if (!username || !password) {
+      setError("Please, provide username and password");
+      return;
+    }
     try {
       const response = await axios.post("/api/auth/login", {
         username,
@@ -41,7 +45,7 @@ export default function Home() {
       </Head>
 
       <div className={styles.card}>
-        <h1 className={styles.title}>Login</h1>
+        <h1 className={styles.title}>User Access</h1>
         <input
           className={styles.login}
           type="text"

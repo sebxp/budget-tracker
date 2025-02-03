@@ -16,6 +16,10 @@ export default function Register() {
   const router = useRouter();
 
   const handleRegister = async () => {
+    if (!username || !password) {
+      setError("Please, provide username and password");
+      return;
+    }
     try {
       await axios.post("/api/auth/register", { username, password });
       setSuccess("Registration successful! Redirecting to login...");

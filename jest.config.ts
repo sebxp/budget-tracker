@@ -12,5 +12,6 @@ export default async (): Promise<Config> => {
     transform: {
       "^.+\\.(js|jsx|ts|tsx|mjs)$": "babel-jest",
     },
+    verbose: true,
   };
 };
