@@ -7,9 +7,9 @@
     justify-content: center;
     height: 100vh;
     background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  }
-  
-  .card {
+}
+
+.card {
     background-color: white;
     padding: 2rem;
     border-radius: 8px;
@@ -17,23 +17,26 @@
     width: 100%;
     max-width: 400px;
     text-align: center;
-  }
-  
-  h1.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1.title {
     margin-bottom: 1.5rem;
     color: #333;
-  }
-  
-  input.login {
+}
+
+input.login {
     width: 100%;
     padding: 0.75rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
-  }
-  
-  button.action {
+}
+
+button.action {
     width: 100%;
     padding: 0.75rem;
     background-color: #0070f3;
@@ -43,13 +46,13 @@
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
-  
-  button.action:hover {
+}
+
+button.action:hover {
     background-color: #005bb5;
-  }
-  
-  .error {
+}
+
+.error {
     color: red;
     margin-top: 1rem;
-  }
+}
