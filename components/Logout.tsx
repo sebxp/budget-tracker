@@ -2,8 +2,11 @@
 
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import ConfirmDialog from './ConfirmDialog';
 
 const Logout = () => {
+    const [showConfirm, setShowConfirm] = useState(false);
     const router = useRouter();
 
     const handleLogout = async () => {
@@ -30,9 +33,18 @@ const Logout = () => {
     };
 
     return (
-        <button onClick={handleLogout} style={logoutButtonStyle}>
-            Logout
-        </button>
+        <>
+            <button onClick={() => setShowConfirm(true)} style={logoutButtonStyle}>
+                Logout
+            </button>
+            {showConfirm && (
+                <ConfirmDialog
+                    message="Are you sure you want to logout?"
+                    onConfirm={handleLogout}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
+        </>
     );
 };
 
