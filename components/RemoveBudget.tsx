@@ -11,6 +11,7 @@ const RemoveBudget = ({ budgetId, onBudgetRemoved }: { budgetId: string, onBudge
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log('removes?')
       onBudgetRemoved();
     } catch (error) {
       console.error('Failed to remove budget item:', error);

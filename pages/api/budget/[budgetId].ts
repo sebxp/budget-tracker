@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return authenticateJWT(req as NextApiRequestWithUser, res, async () => {
             const id = req.query.budgetId;
             await db.collection('budgets').deleteOne({ _id: new ObjectId(id.toString()) });
-            return res.status(201);
+            return res.status(201).json({ _id: id });
         });
     }
 
