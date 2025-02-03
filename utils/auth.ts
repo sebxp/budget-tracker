@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { isTokenBlacklisted } from './tokenBlacklist';
 
 export interface NextApiRequestWithUser extends NextApiRequest {
-  user: string | JwtPayload | undefined
+  user: JwtPayload | undefined
 }
 
 export const authenticateJWT = async (req: NextApiRequestWithUser, res: NextApiResponse, next: Function) => {
@@ -29,7 +29,11 @@ export const authenticateJWT = async (req: NextApiRequestWithUser, res: NextApiR
       if (err) {
         return res.status(403).json({ message: 'Token is not valid' });
       }
-      req.user = user;
+      if (typeof user !== 'string') {
+        req.user = user;
+      } else {
+        return res.status(403).json({ message: 'Token is not valid' });
+      }
       next();
     });
   } catch (error) {

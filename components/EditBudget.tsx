@@ -8,23 +8,23 @@ import styles from '../styles/EditBudget.module.css';
 const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudgetUpdated: () => void }) => {
   const [name, setName] = useState(budgetItem.name || '');
   const [amount, setAmount] = useState(budgetItem.amount || '');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const router = useRouter();
 
   const handleUpdate = async () => {
     if (!name || !amount || isNaN(parseFloat(amount))) {
-      setError('Please enter a valid name and amount.');
+      setMessage('Please enter a valid name and amount.');
       return;
     }
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`/api/budget/${budgetItem._id}`, { name, amount: parseFloat(amount) }, {
+      const response = await axios.put(`/api/budget/${budgetItem._id}`, { name, amount: parseFloat(amount) }, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setError('');
+      setMessage(response.data.message);
       onBudgetUpdated();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -36,7 +36,7 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
           router.push('/');
         }
         else
-          setError('An error ocurred while trying to edit this item');
+          setMessage(error.response.data.message || 'Failed to update budget item.');
       }
     }
   };
@@ -57,7 +57,7 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
         className={styles.input}
       />
       <button className={styles.button} onClick={handleUpdate}>Update</button>
-      {error && <p className={styles.error}>{error}</p>}
+      {message && <p className={styles.error}>{message}</p>}
     </div>
   );
 };

@@ -6,12 +6,12 @@ import styles from '../styles/CreateBudget.module.css';
 export default function CreateBudget({ onBudgetAdded }: { onBudgetAdded: () => void }) {
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const router = useRouter();
 
   const handleSubmit = async () => {
     if (!name || !amount || isNaN(parseFloat(amount))) {
-      setError('Please enter a valid name and amount.');
+      setMessage('Please enter a valid name and amount.');
       return;
     }
 
@@ -24,7 +24,7 @@ export default function CreateBudget({ onBudgetAdded }: { onBudgetAdded: () => v
       });
       setName('');
       setAmount('');
-      setError('');
+      setMessage('Budget item created successfully');
       onBudgetAdded();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -36,7 +36,7 @@ export default function CreateBudget({ onBudgetAdded }: { onBudgetAdded: () => v
           router.push('/');
         }
         else
-          setError('An error ocurred while trying to create a new budget item');
+          setMessage(error.response.data.message || 'Failed to create budget item.');
       }
     }
   };
@@ -59,7 +59,7 @@ export default function CreateBudget({ onBudgetAdded }: { onBudgetAdded: () => v
         className={styles.input}
       />
       <button onClick={handleSubmit} className={styles.button}>Add</button>
-      {error && <p className={styles.error}>{error}</p>}
+      {message && <p className={styles.error}>{message}</p>}
     </div>
   );
 }

@@ -8,7 +8,7 @@ import ConfirmDialog from './ConfirmDialog';
 
 const RemoveBudget = ({ budgetId, onBudgetRemoved }: { budgetId: string, onBudgetRemoved: () => void }) => {
   const [showConfirm, setShowConfirm] = useState(false);
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const router = useRouter();
 
   const handleRemove = async () => {
@@ -30,7 +30,7 @@ const RemoveBudget = ({ budgetId, onBudgetRemoved }: { budgetId: string, onBudge
           router.push('/');
         }
         else
-          setError('An error ocurred while trying to remove this item');
+          setMessage(error.response.data.message || 'Failed to delete budget item.');
       }
     }
   };
@@ -38,7 +38,7 @@ const RemoveBudget = ({ budgetId, onBudgetRemoved }: { budgetId: string, onBudge
   return (
     <>
       <button onClick={() => setShowConfirm(true)} className={styles.button}>Remove</button>
-      {error && <p className={styles.error}>{error}</p>}
+      {message && <p className={styles.error}>{message}</p>}
       {showConfirm && (
         <ConfirmDialog
           message="Are you sure you want to remove this budget item?"

@@ -6,15 +6,17 @@ export default async function handler(req: NextApiRequestWithUser, res: NextApiR
     const db = await connectToDatabase();
 
     if (req.method === 'GET') {
-        const budgets = await db.collection('budgets').find({}).toArray();
-        return res.status(200).json(budgets);
+        return authenticateJWT(req, res, async () => {
+            const budgets = await db.collection('budgets').find({ userId: req.user.id }).toArray();
+            return res.status(200).json(budgets);
+        });
     }
 
     if (req.method === 'POST') {
         return authenticateJWT(req, res, async () => {
             const budget = req.body;
-            const result = await db.collection('budgets').insertOne(budget);
-            return res.status(201).json({ _id: result.insertedId, ...budget });
+            const result = await db.collection('budgets').insertOne({ userId: req.user.id, ...budget });
+            return res.status(201).json({ _id: result.insertedId });
         });
     }
 
