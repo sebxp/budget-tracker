@@ -7,8 +7,14 @@ import styles from '../styles/EditBudget.module.css';
 const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudgetUpdated: () => void }) => {
   const [name, setName] = useState(budgetItem.name || '');
   const [amount, setAmount] = useState(budgetItem.amount || '');
+  const [error, setError] = useState('');
 
   const handleUpdate = async () => {
+    if (!name || !amount || isNaN(parseFloat(amount))) {
+      setError('Please enter a valid name and amount.');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       await axios.put(`/api/budget/${budgetItem._id}`, { name, amount: parseFloat(amount) }, {
@@ -16,6 +22,7 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
           Authorization: `Bearer ${token}`,
         },
       });
+      setError('');
       onBudgetUpdated();
     } catch (error) {
       console.error('Failed to update budget item:', error);
@@ -38,6 +45,7 @@ const EditBudget = ({ budgetItem, onBudgetUpdated }: { budgetItem: any, onBudget
         className={styles.input}
       />
       <button className={styles.button} onClick={handleUpdate}>Update</button>
+      {error && <p className={styles.error}>{error}</p>}
     </div>
   );
 };
