@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import styles from '../styles/Login.module.css';
@@ -22,7 +23,6 @@ export default function Home() {
       router.push('/dashboard');
     } catch (error) {
       setError('Login failed. Please check your credentials.');
-      console.error('Login failed:', error);
     }
   };
 
@@ -51,6 +51,7 @@ export default function Home() {
         />
         <button className={styles.action} onClick={handleLogin}>Login</button>
         {error && <p className={styles.error} style={{ color: 'red' }}>{error}</p>}
+        <p>Don't have an account? <Link href="/register">Register here</Link></p>
       </div>
     </div>
   );
