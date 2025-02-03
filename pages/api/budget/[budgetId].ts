@@ -43,9 +43,13 @@ export default async function handler(
             .status(404)
             .json({ message: "Budget item not found or not authorized" });
         }
-        res.status(200).json({ message: "Budget item deleted successfully" });
+        return res
+          .status(200)
+          .json({ message: "Budget item deleted successfully" });
       } catch (error) {
-        res.status(500).json({ message: "Failed to delete budget item" });
+        return res
+          .status(500)
+          .json({ message: "Failed to delete budget item" });
       }
     }
     res.setHeader("Allow", ["PUT", "DELETE"]);
